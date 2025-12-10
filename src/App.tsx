@@ -10,10 +10,12 @@ import IndicatorUI from './components/IndicatorUI';
 import useFetchData from './functions/useFetchData';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
-
+import { useState } from 'react';
 function App() {
+  // Utilice una variable de estado para almacenar la opción seleccionada por el usuario
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
   //const [count, setCount] = useState(0)
-  const { data, loading, error } = useFetchData();
+  const { data, loading, error } = useFetchData(selectedOption);
   return (
 
     <Grid container spacing={5} justifyContent="center" alignItems="center">
@@ -25,7 +27,7 @@ function App() {
       <Grid size={{ xs: 12, md: 12 }} container justifyContent="right" alignItems="center"> <AlertUI description="No se preveen lluvias" /></Grid>
 
       {/* Selector */}
-      <Grid size={{ xs: 12, md: 3 }}><SelectorUI /></Grid>
+      <Grid size={{ xs: 12, md: 3 }}><SelectorUI onOptionSelect={setSelectedOption} /></Grid>
 
       {/* Indicadores */}
 
@@ -79,7 +81,9 @@ function App() {
 
       {/* Gráfico */}
       <Grid size={{ xs: 6, md: 6 }} sx={{ display: { xs: "none", md: "block" } }}>
-        <ChartUI />
+        {data && (
+          <ChartUI data={data} />
+        )}
       </Grid>
 
       {/* Tabla */}

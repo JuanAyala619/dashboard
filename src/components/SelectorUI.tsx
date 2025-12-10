@@ -3,10 +3,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
-export default function SelectorUI() {
+// Defina la interfaz del prop
+interface SelectorProps {
+    onOptionSelect: (option: string) => void;
+}
+export default function SelectorUI({ onOptionSelect }: SelectorProps) {
     const [cityInput, setCityInput] = useState('');
     const handleChange = (event: SelectChangeEvent<string>) => {
-        setCityInput(event.target.value)
+        setCityInput(event.target.value);
+        onOptionSelect(event.target.value);
     };
     return (
         <FormControl fullWidth>
@@ -18,10 +23,10 @@ export default function SelectorUI() {
                 onChange={handleChange}
                 value={cityInput} >
                 <MenuItem disabled><em>Seleccione una ciudad</em></MenuItem>
-                <MenuItem value={"guayaquil"}>Guayaquil</MenuItem>
-                <MenuItem value={"quito"}>Quito</MenuItem>
-                <MenuItem value={"manta"}>Manta</MenuItem>
-                <MenuItem value={"cuenca"}>Cuenca</MenuItem>
+                <MenuItem value={"Guayaquil"}>Guayaquil</MenuItem>
+                <MenuItem value={"Quito"}>Quito</MenuItem>
+                <MenuItem value={"Manta"}>Manta</MenuItem>
+                <MenuItem value={"Cuenca"}>Cuenca</MenuItem>
             </Select>
             {cityInput && (
                 <p>
