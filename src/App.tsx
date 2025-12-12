@@ -10,6 +10,7 @@ import IndicatorUI from './components/IndicatorUI';
 import useFetchData from './functions/useFetchData';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
+import MapUI from './components/MapUI';
 import { useState } from 'react';
 function App() {
   // Utilice una variable de estado para almacenar la opción seleccionada por el usuario
@@ -88,11 +89,17 @@ function App() {
 
       {/* Tabla */}
       <Grid size={{ xs: 6, md: 6 }} sx={{ display: { xs: "none", md: "block" } }}>
-        <TableUI />
+        {data && (
+          <TableUI data={data} />
+        )}
       </Grid>
 
-      {/* Información adicional */}
-      <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>
+      {/* Información adicional (mapa)*/}
+      <Grid size={{ xs: 12, md: 12 }}>
+        {data && (
+          <MapUI data={data} />
+        )}
+      </Grid>
 
     </Grid>
   );

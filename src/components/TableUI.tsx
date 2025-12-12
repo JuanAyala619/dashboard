@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
-import useFetchData from '../functions/useFetchData';
+import { type OpenMeteoResponse } from '../types/DashboardTypes';
 function combineArrays(arrLabels: Array<string>, arrValues1: Array<number>, arrValues2: Array<number>) {
     return arrLabels.map((label, index) => ({
         id: index,
@@ -24,7 +24,7 @@ const columns: GridColDef[] = [
     },
     {
         field: 'value2',
-        headerName: 'Visibilidad',
+        headerName: 'Temperatura aparente',
         width: 125,
     },
     {
@@ -37,18 +37,14 @@ const columns: GridColDef[] = [
         valueGetter: (_, row) => `${row.label || ''} ${row.value1 || ''} ${row.value2 || ''}`,
     },
 ];
+interface TableProps {
+    data: OpenMeteoResponse;
+}
 
-
-export default function TableUI() {
-    const { data, loading, error } = useFetchData();
-    if (!data || loading) {
-        return <p>Cargando...</p>;
-    }
+export default function TableUI({ data }: TableProps) {
     const arrValues1 = data.hourly.temperature_2m;
-    const arrValues2 = data.hourly.visibility;
+    const arrValues2 = data.hourly.apparent_temperature;
     const arrLabels = data.hourly.time;
-    if (error)
-        return <p>Error: {error}</p>;
     const rows = combineArrays(arrLabels, arrValues1, arrValues2);
     return (
         <Box sx={{ height: 350, width: '100%' }}>
